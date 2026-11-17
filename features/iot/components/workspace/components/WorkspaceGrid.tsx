@@ -208,7 +208,7 @@ export default function WorkspaceGrid({
 
   return (
     <div className="flex flex-wrap gap-8 w-full items-start">
-        {filteredGroupsOrder.map((groupName, groupIndex) => (
+      {filteredGroupsOrder.map((groupName, groupIndex) => (
           <ConnectedGroup
             key={groupName}
             groupName={groupName}
@@ -223,7 +223,7 @@ export default function WorkspaceGrid({
             isMobilePortrait={isMobilePortrait}
             segmentProps={segmentProps}
           />
-        ))}
+      ))}
     </div>
   );
 }
