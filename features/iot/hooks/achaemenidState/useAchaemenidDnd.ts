@@ -1,6 +1,6 @@
 "use client";
 
-import type { DragEndEvent, DragOverEvent, DragStartEvent } from "@dnd-kit/react";
+import type { DragEndEvent, DragStartEvent } from "@dnd-kit/react";
 import { isSortable } from "@dnd-kit/react/sortable";
 import { useCallback } from "react";
 import type { Segment } from "@/features/iot/hooks/store/types";
@@ -155,20 +155,6 @@ export function useAchaemenidDnd({
     [setActiveGroupId, setActiveSegmentId],
   );
 
-  const handleDragOver = useCallback((event: DragOverEvent) => {
-    const { source, target } = event.operation;
-
-    if (
-      source?.type === "Segment" &&
-      target?.type === "Segment" &&
-      isSortable(source) &&
-      isSortable(target) &&
-      source.group !== target.group
-    ) {
-      event.preventDefault();
-    }
-  }, []);
-
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {
       setActiveSegmentId(null);
@@ -227,7 +213,6 @@ export function useAchaemenidDnd({
 
   return {
     handleDragStart,
-    handleDragOver,
     handleDragEnd,
   };
 }
