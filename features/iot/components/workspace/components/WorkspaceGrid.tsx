@@ -151,7 +151,6 @@ type WorkspaceGridProps = Omit<
   IoTWorkspaceProps,
   | "sensors"
   | "handleDragStart"
-  | "handleDragOver"
   | "handleDragEnd"
   | "activeSegmentId"
   | "activeGroupId"
