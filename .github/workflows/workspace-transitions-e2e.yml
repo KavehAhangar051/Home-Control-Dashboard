@@ -1,0 +1,51 @@
+name: Workspace Transition E2E
+
+on:
+  pull_request:
+    paths:
+      - "app/**"
+      - "components/**"
+      - "features/**"
+      - "styles/**"
+      - "tests/e2e/**"
+      - "playwright.config.mjs"
+      - ".github/workflows/workspace-transitions-e2e.yml"
+      - "package.json"
+      - "bun.lock"
+  push:
+    branches:
+      - main
+      - "test/workspace-view-transitions-e2e"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: workspace-transitions-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  chromium:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install project dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright test runner
+        run: bun add --no-save @playwright/test
+
+      - name: Install Chromium
+        run: bunx playwright install --with-deps chromium
+
+      - name: Run workspace transition browser tests
+        run: bunx playwright test
