@@ -17,7 +17,6 @@ export default function DndGridWorkspace(props: IoTWorkspaceProps) {
         }),
       ]}
       onDragStart={props.handleDragStart}
-      onDragOver={props.handleDragOver}
       onDragEnd={props.handleDragEnd}
     >
       <WorkspaceGrid {...props} />
