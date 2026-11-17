@@ -46,6 +46,8 @@ jobs:
       - name: Format migrated source files
         run: |
           bunx biome format --write \
+            features/dashboard/components/layout/DashboardWorkspace.tsx \
+            features/dashboard/context/DashboardContext.tsx \
             features/iot/hooks/achaemenidState/useAchaemenidDnd.ts \
             features/iot/components/workspace/components/DndGridWorkspace.tsx \
             features/iot/components/workspace/components/TrashDropZone.tsx \
