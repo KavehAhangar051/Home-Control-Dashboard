@@ -2,6 +2,7 @@ import fs from "node:fs";
 import { register } from "node:module";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+// TypeScript 7 ships without the JavaScript Compiler API; tests use the TS6 compatibility API.
 import ts from "@typescript/typescript6";
 
 const workspaceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
