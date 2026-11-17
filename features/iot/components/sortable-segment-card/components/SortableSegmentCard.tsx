@@ -145,7 +145,7 @@ function SortableSegmentCard(props: SortableSegmentCardProps) {
 
   return (
     <div
-      ref={setNodeRef}
+      ref={ref}
       style={style}
       className={`touch-none relative h-full transition-opacity duration-300 ${SEGMENT_SPAN_CLASS} ${isSettingsOpen ? "z-40" : ""}`}
     >
