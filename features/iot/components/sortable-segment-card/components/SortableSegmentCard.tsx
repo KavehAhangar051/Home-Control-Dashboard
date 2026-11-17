@@ -1,7 +1,6 @@
 "use client";
 
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/react/sortable";
 import React from "react";
 import { useIoTStore } from "@/features/iot/hooks/useIoTStore";
 import { getSegmentGridLayout } from "../../workspace/core/gridUtils";
@@ -10,23 +9,17 @@ import { useSegmentDensity } from "../hooks/useSegmentDensity";
 import ActiveCard from "./ActiveCard";
 import PlaceholderCard from "./PlaceholderCard";
 
-const DEFAULT_CARD_TRANSITION = "transform 350ms cubic-bezier(0.16, 1, 0.3, 1)";
-const EMPTY_RECORD = Object.freeze({});
 const SEGMENT_SPAN_CLASS = "sm:[grid-column:span_var(--segment-span,1)/span_var(--segment-span,1)]";
 
 type SegmentCardStyle = React.CSSProperties & { "--segment-span": number };
 
 function getSegmentCardStyle(
-  transform: ReturnType<typeof useSortable>["transform"],
-  transition: string | undefined,
   animationsEnabled: boolean,
   isDragging: boolean,
   isSettingsOpen: boolean,
   segmentSpan: number,
 ): SegmentCardStyle {
   return {
-    transform: CSS.Transform.toString(transform),
-    transition: animationsEnabled ? transition || DEFAULT_CARD_TRANSITION : "none",
     zIndex: isDragging ? 50 : isSettingsOpen ? 40 : "auto",
     opacity: isDragging ? 0.35 : 1,
     scale: isDragging ? 0.96 : 1,
@@ -35,7 +28,7 @@ function getSegmentCardStyle(
 }
 
 function DraggingSegmentSkeleton({
-  setNodeRef,
+  ref,
   style,
   isSettingsOpen,
   isUltraCompact,
@@ -75,20 +68,22 @@ function SortableSegmentCard(props: SortableSegmentCardProps) {
   const isSettingsOpen = useIoTStore((s) => s.openSegmentMenuId === segment.id);
   const isPinOn = useIoTStore((s) => !!s.pinsState[segment.pin]);
 
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const { ref, handleRef, isDragging } = useSortable({
     id: segment.id,
-    data: {
-      type: "Segment",
-      group: segment.group || "Test",
-    },
+    index,
+    group: segment.group || "Test",
+    type: "Segment",
+    accept: "Segment",
+    data: { group: segment.group || "Test" },
     disabled: props.isOverlayItem,
+    transition: animationsEnabled
+      ? { duration: 350, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }
+      : null,
   });
 
   const segmentSpan = getSegmentGridLayout(groupItemsCount, groupMaxCols).getItemSpan(index);
 
   const style = getSegmentCardStyle(
-    transform,
-    transition,
     animationsEnabled,
     isDragging,
     isSettingsOpen,
@@ -113,8 +108,7 @@ function SortableSegmentCard(props: SortableSegmentCardProps) {
           isUltraCompact={isUltraCompact}
           isMobileTwoCol={isMobileTwoCol}
           densityFactor={densityFactor}
-          attributes={EMPTY_RECORD}
-          listeners={EMPTY_RECORD}
+          handleRef={undefined}
         />
       </div>
     );
@@ -142,8 +136,7 @@ function SortableSegmentCard(props: SortableSegmentCardProps) {
           segment={segment}
           onRemove={props.onRemove}
           onSetupPlaceholder={props.onSetupPlaceholder}
-          attributes={attributes}
-          listeners={listeners}
+          handleRef={handleRef}
           isCompact={isCompact}
           isUltraCompact={isUltraCompact}
           animationsEnabled={animationsEnabled}
