@@ -149,11 +149,7 @@ const ConnectedGroup = React.memo((props: ConnectedGroupProps) => {
 
 type WorkspaceGridProps = Omit<
   IoTWorkspaceProps,
-  | "sensors"
-  | "handleDragStart"
-  | "handleDragEnd"
-  | "activeSegmentId"
-  | "activeGroupId"
+  "sensors" | "handleDragStart" | "handleDragEnd" | "activeSegmentId" | "activeGroupId"
 > & {
   selectedGroupFilter?: string | null;
 };
