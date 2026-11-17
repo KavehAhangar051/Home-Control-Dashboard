@@ -1,4 +1,4 @@
-import type { DragEndEvent, DragOverEvent, DragStartEvent } from "@dnd-kit/react";
+import type { DragEndEvent, DragStartEvent } from "@dnd-kit/react";
 
 export interface IoTWorkspaceProps {
   groupsOrder: string[];
@@ -11,7 +11,6 @@ export interface IoTWorkspaceProps {
   selectedGroupFilter?: string | null;
 
   handleDragStart: (event: DragStartEvent) => void;
-  handleDragOver: (event: DragOverEvent) => void;
   handleDragEnd: (event: DragEndEvent) => void;
   handleGroupColsChange: (groupName: string, cols: number) => void;
   handleAddPlaceholder: (groupId: string) => void;
