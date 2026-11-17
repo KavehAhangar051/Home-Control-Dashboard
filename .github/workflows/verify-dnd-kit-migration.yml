@@ -43,6 +43,31 @@ jobs:
         run: bun ci
       - name: Lint
         run: bun run lint
+      - name: Format migrated source files
+        run: |
+          bunx biome format --write \
+            features/iot/hooks/achaemenidState/useAchaemenidDnd.ts \
+            features/iot/components/workspace/components/DndGridWorkspace.tsx \
+            features/iot/components/workspace/components/TrashDropZone.tsx \
+            features/iot/components/workspace/components/WorkspaceDragOverlay.tsx \
+            features/iot/components/workspace/components/WorkspaceGrid.tsx \
+            features/iot/components/workspace/core/types.ts \
+            features/iot/components/sortable-group/components/GroupHeader.tsx \
+            features/iot/components/sortable-group/components/SortableGroup.tsx \
+            features/iot/components/sortable-group/core/types.ts \
+            features/iot/components/sortable-segment-card/components/ActiveCard.tsx \
+            features/iot/components/sortable-segment-card/components/CardHeader.tsx \
+            features/iot/components/sortable-segment-card/components/PlaceholderCard.tsx \
+            features/iot/components/sortable-segment-card/components/SortableSegmentCard.tsx
+      - name: Commit formatting changes
+        run: |
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add features/iot
+            git commit -m "Format dnd-kit migration"
+            git push
+          fi
       - name: Format check
         run: bunx biome format --check app components features lib
       - name: Typecheck
