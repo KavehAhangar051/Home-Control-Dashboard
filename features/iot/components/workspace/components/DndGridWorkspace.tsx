@@ -13,9 +13,7 @@ export default function DndGridWorkspace(props: IoTWorkspaceProps) {
       sensors={(defaults) => [
         ...defaults.filter((sensor) => sensor !== PointerSensor),
         PointerSensor.configure({
-          activationConstraints: [
-            new PointerActivationConstraints.Distance({ value: 5 }),
-          ],
+          activationConstraints: [new PointerActivationConstraints.Distance({ value: 5 })],
         }),
       ]}
       onDragStart={props.handleDragStart}

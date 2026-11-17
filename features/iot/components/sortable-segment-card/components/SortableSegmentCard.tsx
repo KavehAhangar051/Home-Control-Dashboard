@@ -82,11 +82,7 @@ function SortableSegmentCard(props: SortableSegmentCardProps) {
 
   const segmentSpan = getSegmentGridLayout(groupItemsCount, groupMaxCols).getItemSpan(index);
 
-  const style = getSegmentCardStyle(
-    isDragging,
-    isSettingsOpen,
-    segmentSpan,
-  );
+  const style = getSegmentCardStyle(isDragging, isSettingsOpen, segmentSpan);
 
   const { densityFactor, isUltraCompact, isCompact, isMobileTwoCol } = useSegmentDensity({
     groupMaxCols,
@@ -125,11 +121,7 @@ function SortableSegmentCard(props: SortableSegmentCardProps) {
 
   if (segment.type === "placeholder") {
     return (
-      <div
-        ref={ref}
-        style={style}
-        className={`touch-none relative h-full ${SEGMENT_SPAN_CLASS}`}
-      >
+      <div ref={ref} style={style} className={`touch-none relative h-full ${SEGMENT_SPAN_CLASS}`}>
         <PlaceholderCard
           segment={segment}
           onRemove={props.onRemove}

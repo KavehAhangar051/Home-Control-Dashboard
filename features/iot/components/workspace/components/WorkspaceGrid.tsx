@@ -209,20 +209,20 @@ export default function WorkspaceGrid({
   return (
     <div className="flex flex-wrap gap-8 w-full items-start">
       {filteredGroupsOrder.map((groupName, groupIndex) => (
-          <ConnectedGroup
-            key={groupName}
-            groupName={groupName}
-            groupIndex={groupIndex}
-            groupConfigs={groupConfigs}
-            handleGroupColsChange={handleGroupColsChange}
-            handleAddPlaceholder={handleAddPlaceholder}
-            handleRemoveGroup={handleRemoveGroup}
-            animationsEnabled={animationsEnabled}
-            filteredGroupsOrderLength={filteredGroupsOrder.length}
-            groupsCols={groupsCols}
-            isMobilePortrait={isMobilePortrait}
-            segmentProps={segmentProps}
-          />
+        <ConnectedGroup
+          key={groupName}
+          groupName={groupName}
+          groupIndex={groupIndex}
+          groupConfigs={groupConfigs}
+          handleGroupColsChange={handleGroupColsChange}
+          handleAddPlaceholder={handleAddPlaceholder}
+          handleRemoveGroup={handleRemoveGroup}
+          animationsEnabled={animationsEnabled}
+          filteredGroupsOrderLength={filteredGroupsOrder.length}
+          groupsCols={groupsCols}
+          isMobilePortrait={isMobilePortrait}
+          segmentProps={segmentProps}
+        />
       ))}
     </div>
   );

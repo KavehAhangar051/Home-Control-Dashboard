@@ -196,9 +196,7 @@ export function useAchaemenidDnd({
       if (!isSortable(source) || source.initialIndex === source.index) return;
 
       if (source.type === "Group") {
-        setGroupsOrder((previous) =>
-          moveItem(previous, source.initialIndex, source.index),
-        );
+        setGroupsOrder((previous) => moveItem(previous, source.initialIndex, source.index));
         return;
       }
 
