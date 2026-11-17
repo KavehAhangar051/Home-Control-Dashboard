@@ -14,7 +14,6 @@ const SEGMENT_SPAN_CLASS = "sm:[grid-column:span_var(--segment-span,1)/span_var(
 type SegmentCardStyle = React.CSSProperties & { "--segment-span": number };
 
 function getSegmentCardStyle(
-  animationsEnabled: boolean,
   isDragging: boolean,
   isSettingsOpen: boolean,
   segmentSpan: number,
@@ -28,7 +27,7 @@ function getSegmentCardStyle(
 }
 
 function DraggingSegmentSkeleton({
-  ref,
+  setNodeRef,
   style,
   isSettingsOpen,
   isUltraCompact,
@@ -84,7 +83,6 @@ function SortableSegmentCard(props: SortableSegmentCardProps) {
   const segmentSpan = getSegmentGridLayout(groupItemsCount, groupMaxCols).getItemSpan(index);
 
   const style = getSegmentCardStyle(
-    animationsEnabled,
     isDragging,
     isSettingsOpen,
     segmentSpan,
@@ -117,7 +115,7 @@ function SortableSegmentCard(props: SortableSegmentCardProps) {
   if (isDragging) {
     return (
       <DraggingSegmentSkeleton
-        setNodeRef={setNodeRef}
+        setNodeRef={ref}
         style={style}
         isSettingsOpen={isSettingsOpen}
         isUltraCompact={isUltraCompact}
@@ -128,7 +126,7 @@ function SortableSegmentCard(props: SortableSegmentCardProps) {
   if (segment.type === "placeholder") {
     return (
       <div
-        ref={setNodeRef}
+        ref={ref}
         style={style}
         className={`touch-none relative h-full ${SEGMENT_SPAN_CLASS}`}
       >
@@ -158,8 +156,7 @@ function SortableSegmentCard(props: SortableSegmentCardProps) {
         isUltraCompact={isUltraCompact}
         isMobileTwoCol={isMobileTwoCol}
         densityFactor={densityFactor}
-        attributes={attributes}
-        listeners={listeners}
+        handleRef={handleRef}
       />
     </div>
   );
