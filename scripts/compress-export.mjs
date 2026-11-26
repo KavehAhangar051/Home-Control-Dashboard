@@ -7,7 +7,10 @@ import { promisify } from "node:util";
 const brotliAsync = promisify(brotliCompress);
 const gzipAsync = promisify(gzip);
 
-const TARGET_DIR = path.resolve(process.cwd(), "out");
+const TARGET_DIRS = [
+  path.resolve(process.cwd(), ".open-next/assets"),
+  path.resolve(process.cwd(), ".next/static"),
+];
 const MIN_BYTES = 512;
 const COMPRESSIBLE_EXTENSIONS = new Set([
   ".html",
@@ -66,24 +69,32 @@ function formatBytes(bytes) {
 }
 
 async function main() {
-  const dirInfo = await stat(TARGET_DIR).catch(() => null);
+  let targetDir = null;
 
-  if (!dirInfo?.isDirectory()) {
-    console.warn(`[compress-export] Skipping: output directory not found at ${TARGET_DIR}`);
+  for (const candidate of TARGET_DIRS) {
+    const dirInfo = await stat(candidate).catch(() => null);
+
+    if (dirInfo?.isDirectory()) {
+      targetDir = candidate;
+      break;
+    }
+  }
+
+  if (!targetDir) {
+    console.warn("[compress-export] Skipping: no .open-next/assets or .next/static directory found.");
 
     return;
   }
 
-  // Capacitor copies every file in out/ into Android assets. Gzip/Brotli
-  // sidecars collide with their original files during Android asset merging.
+  // Capacitor copies static assets without compressed sidecars.
   if (process.env.CAPACITOR_BUILD === "true") {
-    await removeCompressedSidecars(TARGET_DIR);
+    await removeCompressedSidecars(targetDir);
     console.log("[compress-export] Skipped compressed sidecars for Capacitor Android assets.");
 
     return;
   }
 
-  const files = await collectFiles(TARGET_DIR);
+  const files = await collectFiles(targetDir);
   let totalRaw = 0;
   let totalGzip = 0;
   let totalBrotli = 0;

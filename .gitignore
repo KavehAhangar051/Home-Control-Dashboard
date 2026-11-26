@@ -13,6 +13,12 @@ build/
 # Local environment and secrets
 .env*
 !.env.example
+.dev.vars
+
+# Cloudflare generated state
+.open-next/
+.wrangler/
+cloudflare-env.d.ts
 
 # Logs and diagnostic output
 *.log

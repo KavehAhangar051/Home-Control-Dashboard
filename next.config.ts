@@ -12,6 +12,8 @@ function parseAllowedHosts(raw: string | undefined): string[] {
 
 export default function buildNextConfig(phase: string): NextConfig {
   const isDevServer = phase === PHASE_DEVELOPMENT_SERVER;
+  const isStaticExport =
+    process.env.GITHUB_PAGES === "true" || process.env.CAPACITOR_BUILD === "true";
 
   const nextConfig: NextConfig = {
     reactStrictMode: true,
@@ -105,7 +107,7 @@ export default function buildNextConfig(phase: string): NextConfig {
         },
       ],
     },
-    output: isDevServer || process.env.DISABLE_HMR === "true" ? undefined : "export",
+    output: isDevServer ? undefined : isStaticExport ? "export" : "standalone",
     transpilePackages: ["motion"],
     webpack: (config, { dev, isServer }) => {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
